@@ -137,7 +137,6 @@ RUN apk --update --no-cache add \
     musl-dev \
     pcre-dev \
     postgresql-dev \
-    python3-dev \
     zlib-dev \
   && cd /opt \
   && git clone --branch v${HEALTHCHECKS_VERSION} "https://github.com/healthchecks/healthchecks" healthchecks \

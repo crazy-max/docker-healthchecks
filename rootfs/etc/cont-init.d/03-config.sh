@@ -133,7 +133,7 @@ else:
 EOF
 fi
 
-if [ ! "$(ls -A /data/img)" ]; then
-  echo "Copying img to /opt/healthchecks/static/img/..."
+if [ "$(ls -A /data/img)" ]; then
+  echo "Copying /data/img to /opt/healthchecks/static/img..."
   su-exec healthchecks:healthchecks cp -rf /data/img/* /opt/healthchecks/static/img/
 fi
