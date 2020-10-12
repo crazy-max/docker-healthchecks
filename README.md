@@ -50,6 +50,7 @@ Image: crazymax/healthchecks:latest
 * `PGID`: Process GID (default `1000`)
 * `SUPERUSER_EMAIL`: Superuser email to access [admin panel](https://github.com/healthchecks/healthchecks#accessing-administration-panel)
 * `SUPERUSER_PASSWORD`: Superuser password
+* `USE_OFFICIAL_LOGO`: Replace generic logo with official branding (default `false`)
 
 To configure the application, you just add the environment variables as shown in the
 [Configuration page](https://github.com/healthchecks/healthchecks#configuration) of Healthchecks Project.

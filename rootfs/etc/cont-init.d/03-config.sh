@@ -24,6 +24,7 @@ file_env() {
 }
 
 TZ=${TZ:-UTC}
+USE_OFFICIAL_LOGO=${USE_OFFICIAL_LOGO:-false}
 DB_TIMEOUT=${DB_TIMEOUT:-60}
 
 # Timezone
@@ -33,6 +34,7 @@ echo ${TZ} > /etc/timezone
 
 # Settings
 echo "Setting Healthchecks configuration..."
+sed -i "s|DEBUG = .*|DEBUG = False|g" /opt/healthchecks/hc/settings.py
 sed -i "s|TIME_ZONE = .*|TIME_ZONE = \"${TZ}\"|g" /opt/healthchecks/hc/settings.py
 
 # DB
@@ -131,6 +133,11 @@ if User.objects.filter(username=username).count()==0:
 else:
   print('Superuser already exists.');
 EOF
+fi
+
+if [ "${USE_OFFICIAL_LOGO}" = "true" ]; then
+  echo "Using official branding logo..."
+  su-exec healthchecks:healthchecks cp -f /tpl/img/* /opt/healthchecks/static/img/
 fi
 
 if [ "$(ls -A /data/img)" ]; then

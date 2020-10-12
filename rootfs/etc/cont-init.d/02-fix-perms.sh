@@ -4,4 +4,5 @@ echo "Fixing perms..."
 mkdir -p /data/img
 chown -R healthchecks. \
   /data \
-  /opt/healthchecks
+  /opt/healthchecks \
+  /tpl
