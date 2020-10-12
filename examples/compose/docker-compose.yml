@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  msmtpd:
+    image: crazymax/msmtpd:latest
+    container_name: msmtpd
+    env_file:
+      - "./msmtpd.env"
+    environment:
+      - "TZ"
+    restart: always
+
+  healthchecks:
+    image: crazymax/healthchecks:latest
+    container_name: healthchecks
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
+    volumes:
+      - "healthchecks:/data"
+    env_file:
+      - "./healthchecks.env"
+    environment:
+      - "TZ"
+      - "DB=sqlite"
+      - "DB_NAME=/data/hc.sqlite"
+    restart: always
+
+volumes:
+  healthchecks:

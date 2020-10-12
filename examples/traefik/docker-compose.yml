@@ -1,0 +1,66 @@
+version: "3.7"
+
+services:
+  traefik:
+    image: traefik:2.3
+    container_name: traefik
+    command:
+      - "--global.checknewversion=false"
+      - "--global.sendanonymoususage=false"
+      - "--log.level=INFO"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+      - "--certificatesresolvers.letsencrypt"
+      - "--certificatesresolvers.letsencrypt.acme.storage=acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.email=webmaster@example.com"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
+      - "--providers.docker"
+      - "--providers.docker.watch=true"
+      - "--providers.docker.exposedbydefault=false"
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+      - target: 443
+        published: 443
+        protocol: tcp
+    volumes:
+      - "./acme.json:/acme.json"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - "TZ"
+    restart: always
+
+  msmtpd:
+    image: crazymax/msmtpd:latest
+    container_name: msmtpd
+    env_file:
+      - "./msmtpd.env"
+    environment:
+      - "TZ"
+    restart: always
+
+  healthchecks:
+    image: crazymax/healthchecks:latest
+    container_name: healthchecks
+    volumes:
+      - "healthchecks:/data"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.healthchecks.entrypoints=https"
+      - "traefik.http.routers.healthchecks.rule=Host(`healthchecks.example.com`)"
+      - "traefik.http.routers.healthchecks.tls=true"
+      - "traefik.http.routers.healthchecks.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.healthchecks.tls.domains[0].main=healthchecks.example.com"
+      - "traefik.http.services.healthchecks.loadbalancer.server.port=8000"
+    env_file:
+      - "./healthchecks.env"
+    environment:
+      - "TZ"
+      - "DB=sqlite"
+      - "DB_NAME=/data/hc.sqlite"
+    restart: always
+
+volumes:
+  healthchecks:
