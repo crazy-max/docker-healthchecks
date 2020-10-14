@@ -7,8 +7,13 @@ services:
     command:
       - "--global.checknewversion=false"
       - "--global.sendanonymoususage=false"
+      - "--log=true"
       - "--log.level=INFO"
+      - "--entrypoints.http=true"
       - "--entrypoints.http.address=:80"
+      - "--entrypoints.http.http.redirections.entrypoint.to=https"
+      - "--entrypoints.http.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.https=true"
       - "--entrypoints.https.address=:443"
       - "--certificatesresolvers.letsencrypt"
       - "--certificatesresolvers.letsencrypt.acme.storage=acme.json"
