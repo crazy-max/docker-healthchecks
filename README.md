@@ -16,6 +16,19 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 
 💡 Want to be notified of new releases? Check out 🔔 [Diun (Docker Image Update Notifier)](https://github.com/crazy-max/diun) project!
 
+___
+
+* [Docker](#docker)
+  * [Image](#image)
+  * [Environment variables](#environment-variables)
+  * [Ports](#ports)
+* [Usage](#usage)
+  * [Docker Compose](#docker-compose)
+  * [Command line](#command-line)
+* [Upgrade](#upgrade)
+* [How can I help?](#how-can-i-help)
+* [License](#license)
+
 ## Features
 
 * Run as non-root user
@@ -24,7 +37,12 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 
 ## Docker
 
-### Multi-platform image
+### Image
+
+| Registry                                                                                         | Image                           |
+|--------------------------------------------------------------------------------------------------|---------------------------------|
+| [Docker Hub](https://hub.docker.com/r/crazymax/healthchecks/)                                            | `crazymax/healthchecks`                 |
+| [GitHub Container Registry](https://github.com/users/crazy-max/packages/container/package/healthchecks)  | `ghcr.io/crazy-max/healthchecks`        |
 
 Following platforms for this image are available:
 
@@ -68,7 +86,7 @@ To configure the application, you just add the environment variables as shown in
 * `2500`: [Healthchecks SMTP](https://github.com/healthchecks/healthchecks#receiving-emails) listener service
 * `8000`: HTTP port
 
-## Use this image
+## Usage
 
 ### Docker Compose
 
@@ -94,8 +112,6 @@ $ docker run -d -p 8000:8000 --name healthchecks \
   -v $(pwd)/data:/data \
   crazymax/healthchecks:latest
 ```
-
-## Notes
 
 ## Upgrade
 

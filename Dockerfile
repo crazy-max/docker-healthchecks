@@ -4,10 +4,6 @@ ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 RUN printf "I am running on ${BUILDPLATFORM:-linux/amd64}, building for ${TARGETPLATFORM:-linux/amd64}\n$(uname -a)\n"
 
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VERSION
-
 ENV JUSTC_ENVDIR_VERSION="1.0.0" \
   SOCKLOG_VERSION="2.2.1" \
   SOCKLOG_RELEASE="5" \
@@ -77,20 +73,7 @@ RUN wget -q "https://github.com/just-containers/socklog-overlay/archive/master.z
 
 FROM --platform=${TARGETPLATFORM:-linux/amd64} python:3.8-alpine3.12
 
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VERSION
-
-LABEL maintainer="CrazyMax" \
-  org.opencontainers.image.created=$BUILD_DATE \
-  org.opencontainers.image.url="https://github.com/crazy-max/docker-healthchecks" \
-  org.opencontainers.image.source="https://github.com/crazy-max/docker-healthchecks" \
-  org.opencontainers.image.version=$VERSION \
-  org.opencontainers.image.revision=$VCS_REF \
-  org.opencontainers.image.vendor="CrazyMax" \
-  org.opencontainers.image.title="Healthchecks" \
-  org.opencontainers.image.description="Cron Monitoring Tool" \
-  org.opencontainers.image.licenses="MIT"
+LABEL maintainer="CrazyMax"
 
 RUN apk --update --no-cache add \
     s6 \
