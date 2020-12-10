@@ -86,7 +86,7 @@ RUN apk --update --no-cache add \
 
 COPY --from=s6 /dist /
 
-ENV HEALTHCHECKS_VERSION="1.17.0" \
+ENV HEALTHCHECKS_VERSION="1.18.0" \
   TZ="UTC" \
   PUID="1000" \
   PGID="1000"
@@ -96,6 +96,7 @@ RUN apk --update --no-cache add \
     curl \
     jansson \
     libcap \
+    libffi \
     libressl \
     libxml2 \
     mailcap \
@@ -113,6 +114,7 @@ RUN apk --update --no-cache add \
     git \
     jansson-dev \
     libcap-dev \
+    libffi-dev \
     libressl-dev \
     libxml2-dev \
     linux-headers \

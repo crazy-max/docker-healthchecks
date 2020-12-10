@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.18.0-RC1 (2020/12/10)
+
+* Healthchecks 1.18.0
+
 ## 1.17.0-RC1 (2020/10/14)
 
 * Healthchecks 1.17.0
