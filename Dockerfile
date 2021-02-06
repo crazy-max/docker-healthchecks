@@ -1,8 +1,6 @@
 FROM --platform=${TARGETPLATFORM:-linux/amd64} python:3.8-alpine3.12 as s6
-
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
-RUN printf "I am running on ${BUILDPLATFORM:-linux/amd64}, building for ${TARGETPLATFORM:-linux/amd64}\n$(uname -a)\n"
 
 ENV JUSTC_ENVDIR_VERSION="1.0.0" \
   SOCKLOG_VERSION="2.2.1" \
