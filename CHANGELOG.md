@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.0-r0 (2021/02/06)
+
+* Healthchecks 1.19.0
+* Switch to buildx bake
+* Do not fail on permission issue
+
 ## 1.18.0-RC1 (2020/12/10)
 
 * Healthchecks 1.18.0
