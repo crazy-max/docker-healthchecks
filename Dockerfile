@@ -84,7 +84,7 @@ RUN apk --update --no-cache add \
 
 COPY --from=s6 /dist /
 
-ENV HEALTHCHECKS_VERSION="1.18.0" \
+ENV HEALTHCHECKS_VERSION="1.19.0" \
   TZ="UTC" \
   PUID="1000" \
   PGID="1000"
