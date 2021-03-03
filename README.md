@@ -36,7 +36,7 @@ ___
 * Multi-platform image
 * [Traefik](https://github.com/containous/traefik-library-image) as reverse proxy and creation/renewal of Let's Encrypt certificates (see [this template](examples/traefik))
 
-### Build locally
+## Build locally
 
 ```shell
 git clone https://github.com/crazy-max/docker-healthchecks.git

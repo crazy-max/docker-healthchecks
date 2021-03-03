@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.0-r1 (2021/03/03)
+
+* Switch to `gosu`
+* Disable Rust (pyca/cryptography#5771)
+* Alpine Linux 3.13 with s6-overlay
+
 ## 1.19.0-r0 (2021/02/06)
 
 * Healthchecks 1.19.0
