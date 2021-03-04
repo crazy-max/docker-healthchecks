@@ -1,6 +1,6 @@
 ARG HEALTHCHECKS_VERSION=1.19.0
 
-FROM crazymax/gosu:latest AS gosu
+FROM crazymax/yasu:latest AS yasu
 FROM crazymax/alpine-s6-dist:3.13-2.1.0.2 AS s6
 FROM python:3.8-alpine3.13
 LABEL maintainer="CrazyMax"
@@ -52,7 +52,7 @@ RUN apk --update --no-cache add \
   && rm -rf /opt/healthchecks/.git /root/.cache /tmp/* /var/cache/apk/*
 
 COPY --from=s6 / /
-COPY --from=gosu / /
+COPY --from=yasu / /
 COPY rootfs /
 
 RUN addgroup -g ${PGID} healthchecks \

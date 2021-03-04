@@ -108,7 +108,7 @@ elif [ "$DB" = "sqlite" ]; then
     exit 1
   fi
   if [ ! -f "/opt/healthchecks/hc.sqlite" ]; then
-    gosu healthchecks:healthchecks ln -sf /data/hc.sqlite /opt/healthchecks/hc.sqlite
+    yasu healthchecks:healthchecks ln -sf /data/hc.sqlite /opt/healthchecks/hc.sqlite
   fi
 else
   >&2 echo "ERROR: Unknown database type: $DB"
@@ -117,12 +117,12 @@ fi
 
 # Migrate database
 echo "Migrating database..."
-gosu healthchecks:healthchecks python /opt/healthchecks/manage.py migrate --noinput
+yasu healthchecks:healthchecks python /opt/healthchecks/manage.py migrate --noinput
 
 # Create superuser
 file_env 'SUPERUSER_PASSWORD'
 if [ -n "$SUPERUSER_EMAIL" ] && [ -n "$SUPERUSER_PASSWORD" ]; then
-  cat << EOF | gosu healthchecks:healthchecks python /opt/healthchecks/manage.py shell
+  cat << EOF | yasu healthchecks:healthchecks python /opt/healthchecks/manage.py shell
 from django.contrib.auth.models import User;
 username = 'su';
 password = '$SUPERUSER_PASSWORD';
@@ -137,10 +137,10 @@ fi
 
 if [ "${USE_OFFICIAL_LOGO}" = "true" ]; then
   echo "Using official branding logo..."
-  gosu healthchecks:healthchecks cp -f /tpl/img/* /opt/healthchecks/static/img/
+  yasu healthchecks:healthchecks cp -f /tpl/img/* /opt/healthchecks/static/img/
 fi
 
 if [ "$(ls -A /data/img)" ]; then
   echo "Copying /data/img to /opt/healthchecks/static/img..."
-  gosu healthchecks:healthchecks cp -rf /data/img/* /opt/healthchecks/static/img/
+  yasu healthchecks:healthchecks cp -rf /data/img/* /opt/healthchecks/static/img/
 fi
