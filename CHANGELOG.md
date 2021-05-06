@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.20.0-r0 (2021/05/06)
+
+* Healthchecks 1.20.0
+* alpine-s6 3.13-2.2.0.3
+
 ## 1.19.0-r3 (2021/03/18)
 
 * Upstream Alpine update
