@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.21.0-r0 (2021/07/04)
+
+* Healthchecks 1.21.0
+
 ## 1.20.0-r0 (2021/05/06)
 
 * Healthchecks 1.20.0
