@@ -1,9 +1,8 @@
-ARG HEALTHCHECKS_VERSION=1.20.0
+ARG HEALTHCHECKS_VERSION=1.21.0
 
 FROM crazymax/yasu:latest AS yasu
 FROM crazymax/alpine-s6-dist:3.13-2.2.0.3 AS s6
 FROM python:3.8-alpine3.13
-LABEL maintainer="CrazyMax"
 
 ENV TZ="UTC" \
   PUID="1000" \
