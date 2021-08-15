@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.22.0-r0 (2021/08/15)
+
+* Healthchecks 1.22.0
+* alpine-s6 3.14-2.2.0.3
+
 ## 1.21.0-r0 (2021/07/04)
 
 * Healthchecks 1.21.0
