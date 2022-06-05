@@ -1,8 +1,8 @@
-ARG HEALTHCHECKS_VERSION=1.22.0
+ARG HEALTHCHECKS_VERSION=2.1
 
 FROM crazymax/yasu:latest AS yasu
-FROM crazymax/alpine-s6-dist:3.14-2.2.0.3 AS s6
-FROM python:3.8-alpine3.14
+FROM crazymax/alpine-s6-dist:3.15-2.2.0.3 AS s6
+FROM python:3.10-alpine3.15
 
 ENV TZ="UTC" \
   PUID="1000" \
@@ -16,11 +16,12 @@ RUN apk --update --no-cache add \
     jansson \
     libcap \
     libffi \
-    libressl \
+    libpq \
     libxml2 \
     mailcap \
     mariadb-client \
     musl \
+    openssl \
     pcre \
     postgresql-client \
     shadow \
@@ -28,27 +29,36 @@ RUN apk --update --no-cache add \
     zlib \
   && apk --update --no-cache add -t build-dependencies \
     build-base \
+    cairo \
+    cairo-dev \
+    cargo \
     gcc \
     git \
     jansson-dev \
     libcap-dev \
     libffi-dev \
-    libressl-dev \
+    libpq-dev \
     libxml2-dev \
     linux-headers \
     mariadb-dev \
     musl-dev \
+    openssl-dev \
     pcre-dev \
     postgresql-dev \
+    python3-dev \
     zlib-dev \
+  && mkdir -p ~/.cargo/registry/index \
+  && cd ~/.cargo/registry/index \
+  && git clone --bare https://github.com/rust-lang/crates.io-index.git github.com-1285ae84e5963aae \
   && cd /opt \
   && git clone --branch v${HEALTHCHECKS_VERSION} "https://github.com/healthchecks/healthchecks" healthchecks \
   && cd healthchecks \
-  && pip install mysqlclient uwsgi \
-  && CRYPTOGRAPHY_DONT_BUILD_RUST=1 pip install --upgrade --no-cache-dir -r requirements.txt \
+  && python -m pip install --upgrade pip \
+  && pip install apprise minio mysqlclient uwsgi \
+  && PYTHONUNBUFFERED=1 pip install --upgrade --no-cache-dir -r requirements.txt \
   && touch hc/local_settings.py \
   && apk del build-dependencies \
-  && rm -rf /opt/healthchecks/.git /root/.cache /tmp/* /var/cache/apk/*
+  && rm -rf /opt/healthchecks/.git /root/.cache /root/.cargo /tmp/*
 
 COPY --from=s6 / /
 COPY --from=yasu / /
