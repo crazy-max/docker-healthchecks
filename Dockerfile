@@ -1,8 +1,8 @@
 ARG HEALTHCHECKS_VERSION=2.1
 
 FROM crazymax/yasu:latest AS yasu
-FROM crazymax/alpine-s6-dist:3.15-2.2.0.3 AS s6
-FROM python:3.10-alpine3.15
+FROM crazymax/alpine-s6-dist:3.17-2.2.0.3 AS s6
+FROM python:3.10-alpine3.17
 
 ENV TZ="UTC" \
   PUID="1000" \
