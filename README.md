@@ -102,11 +102,11 @@ To configure the application, you just add the environment variables as shown in
 ### Docker Compose
 
 Docker compose is the recommended way to run this image. You can use the following
-[docker compose template](examples/compose/docker-compose.yml), then run the container:
+[docker compose template](examples/compose/compose.yml), then run the container:
 
 ```bash
-docker-compose up -d
-docker-compose logs -f
+docker compose up -d
+docker compose logs -f
 ```
 
 ### Command line
@@ -129,8 +129,8 @@ $ docker run -d -p 8000:8000 --name healthchecks \
 Recreate the container whenever I push an update:
 
 ```bash
-docker-compose pull
-docker-compose up -d
+docker compose pull
+docker compose up -d
 ```
 
 ## Contributing
