@@ -1,3 +1,5 @@
+name: healthchecks
+
 services:
   healthchecks:
     image: ${HEALTHCHECKS_IMAGE:-crazymax/healthchecks}
