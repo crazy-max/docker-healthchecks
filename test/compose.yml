@@ -1,0 +1,19 @@
+services:
+  healthchecks:
+    image: ${HEALTHCHECKS_IMAGE:-crazymax/healthchecks}
+    container_name: ${HEALTHCHECKS_CONTAINER:-healthchecks}
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
+    volumes:
+      - "healthchecks:/data"
+    env_file:
+      - "./healthchecks.env"
+    environment:
+      - "DB=sqlite"
+      - "DB_NAME=/data/hc.sqlite"
+    restart: always
+
+volumes:
+  healthchecks:
