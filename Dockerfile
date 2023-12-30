@@ -1,8 +1,13 @@
-ARG HEALTHCHECKS_VERSION=2.1
+# syntax=docker/dockerfile:1
+
+ARG HEALTHCHECKS_VERSION=3.1
+ARG ALPINE_VERSION=3.17
+ARG S6_VERSION=2.2.0.3
+ARG PYTHON_VERSION=3.10
 
 FROM crazymax/yasu:latest AS yasu
-FROM crazymax/alpine-s6-dist:3.17-2.2.0.3 AS s6
-FROM python:3.10-alpine3.17
+FROM crazymax/alpine-s6-dist:${ALPINE_VERSION}-${S6_VERSION} AS s6
+FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
 ENV TZ="UTC" \
   PUID="1000" \
@@ -32,6 +37,7 @@ RUN apk --update --no-cache add \
     cairo \
     cairo-dev \
     cargo \
+    curl-dev \
     gcc \
     git \
     jansson-dev \
