@@ -7,13 +7,20 @@ ARG PYTHON_VERSION=3.10
 
 FROM crazymax/yasu:latest AS yasu
 FROM crazymax/alpine-s6-dist:${ALPINE_VERSION}-${S6_VERSION} AS s6
-FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
-ENV TZ="UTC" \
-  PUID="1000" \
-  PGID="1000"
-
+FROM --platform=${BUILDPLATFORM} alpine:${ALPINE_VERSION} AS src
+RUN apk add --update git
+WORKDIR /src
+RUN git init . && git remote add origin "https://github.com/healthchecks/healthchecks"
 ARG HEALTHCHECKS_VERSION
+RUN git fetch origin "v${HEALTHCHECKS_VERSION}" && git checkout -q FETCH_HEAD
+
+FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
+COPY --from=s6 / /
+COPY --from=yasu / /
+COPY --from=src /src /opt/healthchecks
+
+WORKDIR /opt/healthchecks
 RUN apk --update --no-cache add \
     bash \
     bearssl \
@@ -53,28 +60,26 @@ RUN apk --update --no-cache add \
     postgresql-dev \
     python3-dev \
     zlib-dev \
-  && mkdir -p ~/.cargo/registry/index \
-  && cd ~/.cargo/registry/index \
-  && git clone --bare https://github.com/rust-lang/crates.io-index.git github.com-1285ae84e5963aae \
-  && cd /opt \
-  && git clone --branch v${HEALTHCHECKS_VERSION} "https://github.com/healthchecks/healthchecks" healthchecks \
-  && cd healthchecks \
   && python -m pip install --upgrade pip \
   && pip install apprise minio mysqlclient uwsgi \
   && PYTHONUNBUFFERED=1 pip install --upgrade --no-cache-dir -r requirements.txt \
   && touch hc/local_settings.py \
   && apk del build-dependencies \
-  && rm -rf /opt/healthchecks/.git /root/.cache /root/.cargo /tmp/*
+  && rm -rf /opt/healthchecks/.git\
+    /root/.cache \
+    /root/.cargo \
+    /tmp/*
 
-COPY --from=s6 / /
-COPY --from=yasu / /
 COPY rootfs /
+
+ENV TZ="UTC" \
+  PUID="1000" \
+  PGID="1000"
 
 RUN addgroup -g ${PGID} healthchecks \
   && adduser -D -H -u ${PUID} -G healthchecks -s /bin/sh healthchecks
 
 EXPOSE 8000 2500
-WORKDIR /opt/healthchecks
 VOLUME [ "/data" ]
 
 ENTRYPOINT [ "/init" ]
