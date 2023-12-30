@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1-r0 (2023/12/30)
+
+* Healthchecks 3.1
+* Alpine Linux 3.18
+* Python 3.12
+
 ## 2.1-r0 (2022/06/05)
 
 * Healthchecks 2.1
