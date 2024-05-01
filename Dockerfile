@@ -34,7 +34,7 @@ RUN apk --update --no-cache add \
     mariadb-client \
     musl \
     openssl \
-    pcre \
+    pcre2 \
     postgresql-client \
     shadow \
     tzdata \
@@ -56,7 +56,7 @@ RUN apk --update --no-cache add \
     mariadb-dev \
     musl-dev \
     openssl-dev \
-    pcre-dev \
+    pcre2-dev \
     postgresql-dev \
     python3-dev \
     zlib-dev \
