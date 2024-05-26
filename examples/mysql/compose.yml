@@ -2,7 +2,7 @@ name: healthchecks
 
 services:
   db:
-    image: mariadb:10.4
+    image: mariadb:10
     container_name: healthchecks_db
     volumes:
       - "healthchecks-db:/var/lib/mysql"
