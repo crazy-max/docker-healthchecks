@@ -1,8 +1,10 @@
 # syntax=docker/dockerfile:1
 
-ARG HEALTHCHECKS_VERSION=3.1
-ARG ALPINE_VERSION=3.18
+ARG HEALTHCHECKS_VERSION=3.7
+ARG ALPINE_VERSION=3.20
 ARG S6_VERSION=2.2.0.3
+
+# https://github.com/healthchecks/healthchecks/blob/v3.7/docker/Dockerfile#L1
 ARG PYTHON_VERSION=3.12
 
 FROM crazymax/yasu:latest AS yasu
