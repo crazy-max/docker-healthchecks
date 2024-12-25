@@ -1,26 +1,23 @@
 # syntax=docker/dockerfile:1
 
-ARG HEALTHCHECKS_VERSION=3.7
+ARG HEALTHCHECKS_VERSION=3.9
 ARG ALPINE_VERSION=3.20
 ARG S6_VERSION=2.2.0.3
 
-# https://github.com/healthchecks/healthchecks/blob/v3.7/docker/Dockerfile#L1
-ARG PYTHON_VERSION=3.12
+# https://github.com/healthchecks/healthchecks/blob/v3.9/docker/Dockerfile#L1
+ARG PYTHON_VERSION=3.13
 
 FROM crazymax/yasu:latest AS yasu
 FROM crazymax/alpine-s6-dist:${ALPINE_VERSION}-${S6_VERSION} AS s6
 
-FROM --platform=${BUILDPLATFORM} alpine:${ALPINE_VERSION} AS src
-RUN apk add --update git
-WORKDIR /src
-RUN git init . && git remote add origin "https://github.com/healthchecks/healthchecks"
+FROM --platform=${BUILDPLATFORM} scratch AS src
 ARG HEALTHCHECKS_VERSION
-RUN git fetch origin "v${HEALTHCHECKS_VERSION}" && git checkout -q FETCH_HEAD
+ADD "https://github.com/healthchecks/healthchecks.git#v${HEALTHCHECKS_VERSION}" .
 
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 COPY --from=s6 / /
 COPY --from=yasu / /
-COPY --from=src /src /opt/healthchecks
+COPY --from=src / /opt/healthchecks
 
 WORKDIR /opt/healthchecks
 RUN apk --update --no-cache add \
@@ -67,8 +64,7 @@ RUN apk --update --no-cache add \
   && PYTHONUNBUFFERED=1 pip install --upgrade --no-cache-dir -r requirements.txt \
   && touch hc/local_settings.py \
   && apk del build-dependencies \
-  && rm -rf /opt/healthchecks/.git\
-    /root/.cache \
+  && rm -rf /root/.cache \
     /root/.cargo \
     /tmp/*
 
